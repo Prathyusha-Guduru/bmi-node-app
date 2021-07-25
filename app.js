@@ -1,10 +1,14 @@
-const EventEmitter = require("events");
-const emitter = new EventEmitter();
+const http = require("http");
 
-// Register a listener
-emitter.on("messageLogged", () => {
-  console.log("listened");
+const server = http.createServer((req, res) => {
+  if (req.url === "/") {
+    res.write("Hello world");
+    res.end();
+  }
 });
+server.on("connection", (socket) => {
+  console.log("new connection");
+});
+server.listen(3000);
 
-// Raise an event
-emitter.emit("messageLogged");
+console.log("listening on port 3000");
